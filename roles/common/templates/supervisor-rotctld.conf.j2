@@ -1,0 +1,6 @@
+[program:rotctld]
+command=/usr/bin/rotctld -m 202 -r /dev/ttyACM0 -s 19200 -T 127.0.0.1
+autostart=true
+autorestart=true
+user=root
+priority=1

@@ -1,0 +1,15 @@
+[program:satnogs]
+command=/usr/local/bin/satnogs-poller
+autostart=true
+autorestart=true
+user=root
+environment=
+    SATNOGS_SQLITE_URL="{{ SATNOGS_SQLITE_URL }}",
+    SATNOGS_API_URL="{{ SATNOGS_API_URL }}",
+    SATNOGS_API_TOKEN="{{ SATNOGS_API_TOKEN }}",
+    SATNOGS_VERIFY_SSL="TRUE",
+    SATNOGS_STATION_ID="{{ SATNOGS_STATION_ID }}",
+    SATNOGS_STATION_LAT="{{ SATNOGS_STATION_LAT }}",
+    SATNOGS_STATION_LON="{{ SATNOGS_STATION_LON }}",
+    SATNOGS_STATION_ELEV="{{ SATNOGS_STATION_ELEV }}",
+    SATNOGS_PPM_ERROR="{{ SATNOGS_PPM_ERROR }}"
