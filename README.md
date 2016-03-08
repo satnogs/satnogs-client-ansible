@@ -11,7 +11,17 @@ None!
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+The following hostvars should be used:
+* `SATNOGS_API_TOKEN`
+* `SATNOGS_STATION_ID`
+* `SATNOGS_STATION_LAT`
+* `SATNOGS_STATION_LON`
+* `SATNOGS_STATION_ELEV`
+* `SATNOGS_PPM_ERROR`
+
+The following have default values but can be changed:
+* `SATNOGS_API_URL`
+* `SATNOGS_SQLITE_URL`
 
 Dependencies
 ------------
@@ -21,11 +31,16 @@ None!
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
-
-    - hosts: satnogs-client-ansible
-      roles:
-         - { role: ryan_turner.satnogs-client-ansible, satnogs_api_url: https://network.satnogs.org/api/, satnogs_api_token: 123, satnogs_station_id: 456, satnogs_station_lat: 35.0, satnogs_station_lon: -89, satnogs_station_elev: 89, satnogs_ppm_error: -2 }
+```
+- hosts: satnogs
+  roles:
+    - { role: ryan_turner.satnogs-client-ansible}
+```
+Executed with `ansible-playbook playbook.yml -i hosts -u pi -k -K -s -vvvv`; hosts has the following:
+```
+[satnogs]
+10.0.7.128 SATNOGS_API_TOKEN=123 SATNOGS_STATION_ID=456
+```
 
 License
 -------

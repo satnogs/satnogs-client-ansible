@@ -1,5 +1,7 @@
 ---
 # tasks file for satnogs-client-ansible
+- name: Update apt cache
+  apt: update_cache=yes cache_valid_time=3600
 - name: Install required packages
   action: apt pkg={{ item }} state=installed
   with_items:
