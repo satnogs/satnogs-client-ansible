@@ -1,3 +1,5 @@
+---
+# tasks file for satnogs-client-ansible
 - name: Install required packages
   action: apt pkg={{ item }} state=installed
   with_items:
