@@ -45,7 +45,7 @@ Executed with `ansible-playbook playbook.yml -i hosts -u pi -k -K -s -vvvv`; hos
 License
 -------
 
-BSD
+GPLv2
 
 Author Information
 ------------------
