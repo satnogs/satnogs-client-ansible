@@ -22,7 +22,8 @@ The following hostvars should be used:
 * `SATNOGS_STATION_LAT`
 * `SATNOGS_STATION_LON`
 * `SATNOGS_STATION_ELEV`
-* `SATNOGS_PPM_ERROR`
+* `SATNOGS_PPM_ERROR`; this var is auto-set based on Kalibrate results; if you choose not to run Kalibrate, this needs to be manually defined
+* `calibration_band`, which is used for Kalibrate-RTL; values may be GSM850, GSM-R, GSM900, EGSM, DCS, or PCS; US should use GSM850, Euro should use GSM900 most likely; leave undefined to not run Kalibrate
 
 The following have default values but can be changed:
 * `SATNOGS_API_URL`

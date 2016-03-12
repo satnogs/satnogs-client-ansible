@@ -1,0 +1,55 @@
+---
+# tasks file for satnogs-client-ansible
+- name: Update apt cache
+  apt: update_cache=yes cache_valid_time=3600
+  tags:
+    - setup-kalibrate
+
+
+- name: Install required packages
+  action: apt pkg={{ item }} state=installed
+  tags:
+    - setup-kalibrate
+  with_items:
+    - autoconf
+    - libtool
+    - libfftw3-dev
+
+- name: Fetch kalibrate-rtl
+  git: repo=https://github.com/steve-m/kalibrate-rtl dest=/srv/kalibrate-rtl
+  register: rtl_sdr_repository
+  tags:
+    - setup-kalibrate
+
+- name: Build and install kalibrate-rtl
+  action: shell {{ item}} chdir=/srv/kalibrate-rtl
+  tags:
+    - setup-kalibrate
+  with_items:
+    - ./bootstrap
+    - ./configure
+    - make
+    - make install
+
+- name: Scan for base stations
+  shell: "kal -s {{ calibration_band }}"
+  register: scan_result
+  when: calibration_band is defined
+
+
+- name: debug
+  debug: msg="{{scan_result['stdout_lines'][-1].split()[1]}}"
+  when: calibration_band is defined
+
+- name: Calibrate
+  shell: kal -c {{scan_result['stdout_lines'][-1].split()[1]}}
+  register: calibrate_result
+  when: calibration_band is defined
+
+- set_fact:
+    SATNOGS_PPM_ERROR: "{{calibrate_result['stdout_lines'][-1].split()[-2]}}"
+  when: calibration_band is defined
+
+- name: debug
+  debug: msg="{{SATNOGS_PPM_ERROR}}"
+  when: calibration_band is defined

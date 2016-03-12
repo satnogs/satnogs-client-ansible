@@ -2,8 +2,13 @@
 # tasks file for satnogs-client-ansible
 - name: Update apt cache
   apt: update_cache=yes cache_valid_time=3600
+  tags:
+    - setup-prereqs
+
 - name: Install required packages
   action: apt pkg={{ item }} state=installed
+  tags:
+    - setup-prereqs
   with_items:
     - git
     - python-pip
@@ -16,19 +21,29 @@
 
 - name: Blacklist dvb_usb_rtl28xxu module
   kernel_blacklist: name=dvb_usb_rtl28xxu state=present
+  tags:
+    - setup-rtlsdr
 
 - name: Disable dvb_usb_rtl28xxu module
   modprobe: name=dvb_usb_rtl28xxu state=absent
+  tags:
+    - setup-rtlsdr
 
 - name: Fetch SatNOGS rtl-sdr fork
   git: repo=https://github.com/satnogs/rtl-sdr.git dest=/root/rtl-sdr
+  tags:
+    - setup-rtlsdr
   register: rtl_sdr_repository
 
 - name: Create rtl-sdr build directory
   file: state=directory path=/root/rtl-sdr/build
+  tags:
+    - setup-rtlsdr
 
 - name: Build rtl-sdr
   command: "{{ item }} chdir=/root/rtl-sdr/build"
+  tags:
+    - setup-rtlsdr
   with_items:
     - cmake ..
     - make
@@ -36,31 +51,47 @@
 
 - name: Install rtl-sdr
   command: make install chdir=/root/rtl-sdr/build
+  tags:
+    - setup-rtlsdr
   when: rtl_sdr_repository.changed
 
 - name: Update latest shared libraries
   command: ldconfig
+  tags:
+    - setup-rtlsdr
   when: rtl_sdr_repository.changed
 
 - name: Copy udev rules
   command: cp /root/rtl-sdr/rtl-sdr.rules /etc/udev/rules.d
+  tags:
+    - setup-rtlsdr
   when: rtl_sdr_repository.changed
 
 - name: Update udev rules
   command: udevadm trigger
+  tags:
+    - setup-rtlsdr
   when: rtl_sdr_repository.changed
 
 - name: Install satnogs-client
   pip: name=satnogsclient
+  tags:
+    - setup-satnogs
   notify:
     - Restart satnogs
 
 - name: Setup supervisor for rotctld process
   template: src="supervisor-rotctld.conf.j2" dest="/etc/supervisor/conf.d/rotctld.conf"
+  tags:
+    - setup-satnogs
   notify:
     - Restart rotctld
 
+- include: kalibrate.yml
+
 - name: Setup supervisor for satnogs-poller process
   template: src="supervisor-satnogs-poller.conf.j2" dest="/etc/supervisor/conf.d/satnogs.conf"
+  tags:
+    - setup-satnogs
   notify:
     - Restart satnogs
