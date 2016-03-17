@@ -1,8 +1,8 @@
 sudo apt-get update
-sudo apt-get install python3-pip git -y
+sudo apt-get install python-pip git -y
 sudo pip install ansible markupsafe
 cd $(mktemp -d)
-git clone https://github.com/ryanturner/satnogs-client-ansible.git 
+git clone https://github.com/ryanturner/satnogs-client-ansible.git
 echo "Now, let's find out more about this station..."
 echo -n "SatNOGS API URL: "
 read SATNOGS_API_URL

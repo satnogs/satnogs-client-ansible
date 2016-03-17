@@ -1,7 +1,7 @@
 Want to get your SatNOG station up and running ASAP? Do the following...
   1. Complete the official [Raspberry Pi Quick Start Guide](https://www.raspberrypi.org/help/quick-start-guide/)
   2. Use [raspi-config](https://www.raspberrypi.org/documentation/configuration/raspi-config.md) to do your typical setup -- we recommend at least changing the password, changing the hostname, and expanding the filesystem; reboot as instructed
-  3. Run `wget https://raw.githubusercontent.com/ryanturner/satnogs-client-ansible/master/easy-install.sh -O - | sh` to install SatNOGS client
+  3. Run `wget https://raw.githubusercontent.com/satnogs/satnogs-client-ansible/master/easy-install.sh -O - | sh` to install SatNOGS client
 
 Role Name
 =========
@@ -40,7 +40,7 @@ Example Playbook
 ```
 - hosts: satnogs
   roles:
-    - { role: ryan_turner.satnogs-client-ansible}
+    - { role: satnogs.satnogs-client-ansible}
 ```
 Executed with `ansible-playbook playbook.yml -i hosts -u pi -k -K -s -vvvv`; hosts has the following:
 ```
