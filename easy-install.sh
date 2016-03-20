@@ -14,8 +14,10 @@ echo -n "SatNOGS Station Latitude: "
 read SATNOGS_STATION_LAT
 echo -n "SatNOGS Station Longitude: "
 read SATNOGS_STATION_LON
-echo -n "SatNOGS Station Elevation: "
+echo -n "SatNOGS Station Elevation (m, integer): "
 read SATNOGS_STATION_ELEV
+echo -n "Additional Ansible flags (Optional): "
+read ADDITIONAL_ANSIBLE_FLAGS
 echo "[satnogs]
 localhost SATNOGS_API_URL=$SATNOGS_API_URL SATNOGS_API_TOKEN=$SATNOGS_API_TOKEN SATNOGS_STATION_ID=$SATNOGS_STATION_ID SATNOGS_STATION_LAT=$SATNOGS_STATION_LAT SATNOGS_STATION_LON=$SATNOGS_STATION_LON SATNOGS_STATION_ELEV=$SATNOGS_STATION_ELEV
 " > hosts
@@ -25,5 +27,5 @@ echo "- hosts: satnogs
   roles:
     - { role: satnogs-client-ansible }
 " > playbook.yml
-ansible-playbook playbook.yml -i hosts --connection=local
+ansible-playbook playbook.yml -i hosts --connection=local $ADDITIONAL_ANSIBLE_FLAGS
 rm -rf $(pwd)
