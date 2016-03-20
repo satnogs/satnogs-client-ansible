@@ -32,7 +32,7 @@
     - make install
 
 - name: Scan for base stations
-  shell: "kal -s {{ calibration_band }}"
+  shell: "kal -g 16 -s {{ calibration_band }}"
   register: scan_result
   when: calibration_band is defined
 
@@ -42,7 +42,7 @@
   when: calibration_band is defined
 
 - name: Calibrate
-  shell: kal -c {{scan_result['stdout_lines'][-1].split()[1]}}
+  shell: kal -g 16 -c {{scan_result['stdout_lines'][-1].split()[1]}}
   register: calibrate_result
   when: calibration_band is defined
 
