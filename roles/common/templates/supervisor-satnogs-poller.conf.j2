@@ -1,8 +1,8 @@
 [program:satnogs]
-command=/usr/local/bin/satnogs-poller
+command=/home/satnogs/satnogsclient/bin/satnogs-poller
 autostart=true
 autorestart=true
-user=root
+user=satnogs
 environment=
     SATNOGS_SQLITE_URL="{{ SATNOGS_SQLITE_URL }}",
     SATNOGS_API_URL="{{ SATNOGS_API_URL }}",

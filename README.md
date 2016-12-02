@@ -10,5 +10,5 @@ How to install:
  * Make sure `ansible_ssh_user` has root privileges.
 * Change `group_vars/satnogs.yml` according to your setup.
  * Check `group_vars/satnogs.yml-dist` for more information.
-* Run `ansible-playbook playbook.yml -i <hosts_inventory>`
+* Run `ansible-playbook playbook.yml -i hosts`
 * Enjoy!
